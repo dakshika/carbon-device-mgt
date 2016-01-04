@@ -16,22 +16,36 @@
  *   under the License.
  *
  */
-package org.wso2.carbon.apimgt.annotations.device.feature;
+package org.wso2.carbon.apimgt.webapp.publisher;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 
-@Target(ElementType.METHOD)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface Feature {
+import java.util.ArrayList;
+import java.util.List;
 
-    String code();
+public class KeyMgtInfoUtil {
 
-    String name();
+    private List<KeyMgtInfo> infoList = null;
 
-    String description();
+    private static KeyMgtInfoUtil instance = null;
 
-    String type();
+    protected KeyMgtInfoUtil() {
+        synchronized (this) {
+            infoList = new ArrayList<KeyMgtInfo>();
+        }
+    }
+
+    public static KeyMgtInfoUtil getInstance(){
+        if(instance==null){
+            instance = new KeyMgtInfoUtil();
+        }
+        return instance;
+    }
+
+    public void addKeyMgtInfo(KeyMgtInfo keyInfo){
+        infoList.add(keyInfo);
+    }
+
+    public List<KeyMgtInfo> getAllKeyInfo(){
+        return infoList;
+    }
 }

@@ -130,17 +130,17 @@ function loadDevices(searchType, searchParam){
     deviceTypeCount = deviceTypesList.length;
 
     $('#ast-container').html("");
-
-    if(deviceTypeCount > 0){
-        for (var i = 0; i < deviceTypeCount; i++) {
+    deviceTypeCount = deviceTypesList.length;
+    if(deviceTypesList.length > 0){
+        for (var i = 0; i < deviceTypesList.length; i++) {
             var viewModel = {};
             viewModel.imageLocation = imageResource;
             viewModel.appContext = clientJsAppContext;
             viewModel.deviceTypeName = deviceTypesList[i].deviceTypeName;
             viewModel.deviceTypeId = deviceTypesList[i].deviceTypeId;
+            viewModel.deviceCategory = deviceTypesList[i].deviceCategory;
             viewModel.deviceTypeLabel = deviceTypesList[i].deviceTypeLabel;
-            compileTemplate(viewModel, deviceListingSrc, deviceTypeCount);
-
+            compileTemplate(viewModel, deviceListingSrc);
         }
     } else {
         $('#device-grid').addClass('hidden');
@@ -158,12 +158,12 @@ function loadDevices(searchType, searchParam){
 
 }
 
-function compileTemplate(viewModel, templateSrc, deviceTypeCount){
+function compileTemplate(viewModel, templateSrc){
     $.template("device-listing", templateSrc, function (template) {
         $("#ast-container").html($("#ast-container").html() + template(viewModel));
         compiledDeviceTypesCount++;
         if(deviceTypeCount == compiledDeviceTypesCount){
-            $('#device-grid').datatables_extended({"bFilter": false});
+            $('#device-grid').datatables_extended({"bFilter": true, "order": [[ 1, "asc" ]]});
         }
     });
 }
